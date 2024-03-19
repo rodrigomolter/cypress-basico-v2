@@ -34,3 +34,17 @@ Cypress.Commands.add('fillMandatoryFieldsAndSubmit', () => {
     //cy.get('button[type="submit"]').click();
     cy.contains('Enviar').click();
 })
+
+Cypress.Commands.add('checkSucessMessage', () => {
+    cy.clock()
+    cy.get('.success').should('be.visible')
+    cy.tick(3000)
+    cy.get('.success').should('not.be.visible')
+})
+
+Cypress.Commands.add('checkErrorMessage', () => {
+    cy.clock()
+    cy.get('.error').should('be.visible')
+    cy.tick(3000)
+    cy.get('.error').should('not.be.visible')
+})
