@@ -243,7 +243,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         })
       });
 
-      it.only('mostrando o gato escondido', () => {
+      it('mostrando o gato escondido', () => {
         cy.get('#cat')
         .invoke('show')
         .should('be.visible');
