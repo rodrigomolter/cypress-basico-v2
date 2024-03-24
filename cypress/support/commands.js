@@ -1,50 +1,40 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+const THREE_SECONDS_IN_MS = 3000
 
-Cypress.Commands.add('fillMandatoryFieldsAndSubmit', () => {
-    cy.get('input[name="firstName"]').should('be.visible').type('Rodrigo').should('have.value', 'Rodrigo');
-    cy.get('input[name="lastName"]').should('be.visible').type('Molter').should('have.value', 'Molter');
-    cy.get('input[id="email"]').should('be.visible').type('email@gmail.com').should('have.value', 'email@gmail.com');
-    cy.get('textarea[name="open-text-area"]').should('be.visible')
-    .type("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tristique erat lobortis, molestie sapien ut, mollis dui. Donec massa ante, \
-     mollis sed neque eu, euismod consectetur lacus. Proin rutrum ex consectetur lacus placerat blandit. Phasellus ultricies ut tortor porttitor tincidunt.", {delay:0})
-    //cy.get('button[type="submit"]').click();
-    cy.contains('Enviar').click();
+Cypress.Commands.add('fillMandatoryFieldsAndSubmit', (fields = {}) => {
+  const {
+    firstName = 'Rodrigo',
+    lastName = 'Molter',
+    email = 'rodrigo@email.com',
+    textArea = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tristique erat lobortis, molestie sapien ut, mollis dui'
+  } = fields
+
+  cy.get('input[name="firstName"]')
+    .should('be.visible')
+    .type(firstName)
+
+  cy.get('input[name="lastName"]')
+    .should('be.visible')
+    .type(lastName)
+
+  cy.get('input[id="email"]')
+    .should('be.visible')
+    .type(email)
+
+  cy.get('textarea[name="open-text-area"]')
+    .should('be.visible')
+    .type(textArea, {delay:0})
+
+  cy.contains('Enviar').click()
 })
 
 Cypress.Commands.add('checkSucessMessage', () => {
-    cy.clock()
-    cy.get('.success').should('be.visible')
-    cy.tick(3000)
-    cy.get('.success').should('not.be.visible')
+  cy.get('.success').should('be.visible')
+  cy.tick(THREE_SECONDS_IN_MS)
+  cy.get('.success').should('not.be.visible')
 })
 
 Cypress.Commands.add('checkErrorMessage', () => {
-    cy.clock()
-    cy.get('.error').should('be.visible')
-    cy.tick(3000)
-    cy.get('.error').should('not.be.visible')
+  cy.get('.error').should('be.visible')
+  cy.tick(THREE_SECONDS_IN_MS)
+  cy.get('.error').should('not.be.visible')
 })
